@@ -1,3 +1,2 @@
-**/*.csv
 *.duckdb
 staging_area/

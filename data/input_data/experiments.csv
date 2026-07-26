@@ -1,0 +1,3 @@
+﻿experiment_id,display_label,experiment_class,data_type,strain,genetic_background,treatment,treatment_level,growth_phase,media,ref_strain,ref_treatment,ref_treatment_level,ref_growth_phase,ref_media,stat_method,lab_group,doi,geo_id,date_added
+quintero_wt-highK_vs_wt-lowK,WT High K vs WT Low K,de_comparison,rnaseq,NA1000,wildtype,potassium,5mM,mid-log,M2G-K,wildtype,potassium,0.025mM,mid-log,M2G-K,padj,hallez,https://doi.org/10.1128/jb.00107-24,GSE253228,7/19/26
+quintero_wt-lowK_vs_ΔkdpE-lowK,WT Low K vs ΔkdpE Low K,de_comparison,rnaseq,NA1000,ΔkdpE,potassium,0.025mM,mid-log,M2G-K, ΔkdpE,potassium,0.025mM,mid-log,M2G-K,padj,hallez,https://doi.org/10.1128/jb.00107-24,GSE253228,7/19/26
