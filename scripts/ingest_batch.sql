@@ -240,7 +240,6 @@ SELECT gene_id, experiment_id, log2fc, stat_value FROM stg_results;
 INSERT INTO ingest_log (ingest_id, batch_dir, n_experiments, n_results, n_results_dropped, experiment_ids)
 SELECT
     (SELECT COALESCE(max(ingest_id), 0) + 1 FROM ingest_log),
-    getenv('BATCH_DIR'),
     (SELECT count(*) FROM stg_experiments),
     (SELECT count(*) FROM stg_results),
     (SELECT count(*) FROM stg_results_resolved) - (SELECT count(*) FROM stg_results),
