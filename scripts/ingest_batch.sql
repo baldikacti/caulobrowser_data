@@ -237,7 +237,7 @@ INSERT INTO experiments SELECT * FROM stg_experiments;
 INSERT INTO de_results (gene_id, experiment_id, log2fc, stat_value)
 SELECT gene_id, experiment_id, log2fc, stat_value FROM stg_results;
 
-INSERT INTO ingest_log (ingest_id, batch_dir, n_experiments, n_results, n_results_dropped, experiment_ids)
+INSERT INTO ingest_log (ingest_id, n_experiments, n_results, n_results_dropped, experiment_ids)
 SELECT
     (SELECT COALESCE(max(ingest_id), 0) + 1 FROM ingest_log),
     (SELECT count(*) FROM stg_experiments),
