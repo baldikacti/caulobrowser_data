@@ -94,6 +94,17 @@ FROM (
 )
 WHERE ids IS NOT NULL;
 
+-- ingest_log.experiment_ids stores the batch's ids as a ';'-separated string,
+-- so a ';' inside an id would make that field unparseable.
+CREATE OR REPLACE TEMP TABLE _chk AS
+SELECT error('experiments.csv: experiment_id may not contain '';'': ' || ids)
+FROM (
+    SELECT string_agg(experiment_id, ', ') AS ids
+    FROM stg_experiments
+    WHERE experiment_id LIKE '%;%'
+)
+WHERE ids IS NOT NULL;
+
 CREATE OR REPLACE TEMP TABLE _chk AS
 SELECT error('experiments.csv: experiment_id already exists in DB: ' || ids)
 FROM (
@@ -226,12 +237,13 @@ INSERT INTO experiments SELECT * FROM stg_experiments;
 INSERT INTO de_results (gene_id, experiment_id, log2fc, stat_value)
 SELECT gene_id, experiment_id, log2fc, stat_value FROM stg_results;
 
-INSERT INTO ingest_log (batch_dir, n_experiments, n_results, n_results_dropped, status)
+INSERT INTO ingest_log (ingest_id, batch_dir, n_experiments, n_results, n_results_dropped, experiment_ids)
 SELECT
+    (SELECT COALESCE(max(ingest_id), 0) + 1 FROM ingest_log),
     getenv('BATCH_DIR'),
     (SELECT count(*) FROM stg_experiments),
     (SELECT count(*) FROM stg_results),
     (SELECT count(*) FROM stg_results_resolved) - (SELECT count(*) FROM stg_results),
-    'success';
+    (SELECT string_agg(experiment_id, ';' ORDER BY experiment_id) FROM stg_experiments);
 
 COMMIT;
