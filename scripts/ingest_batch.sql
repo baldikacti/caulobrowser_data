@@ -41,6 +41,7 @@ SELECT
     stat_method,
     lab_group,
     doi,
+    notes,
     geo_id,
     COALESCE(date_added, current_date) AS date_added
 FROM read_csv(
@@ -67,6 +68,7 @@ FROM read_csv(
         'lab_group':           'VARCHAR',
         'doi':                 'VARCHAR',
         'geo_id':              'VARCHAR',
+        'notes':               'VARCHAR',
         'date_added':          'DATE'
     }
 );
